@@ -2,8 +2,6 @@ const { Client, Collection, GatewayIntentBits } = require('discord.js');
 require('dotenv').config();
 const path = require('node:path');
 const fs = require("fs")
-const { serve } = require("@hono/node-server");
-const healthCheckServer = require("./server");
 
 const client = new Client({
 intents: [
@@ -49,11 +47,5 @@ client.on('interactionCreate', async interaction => {
 		await interaction.reply({ content: 'エラーが発生しました。', ephemeral: true });
 	}
 });
-
-serve({
-  fetch: healthCheckServer.fetch,
-  port: 8000,
-});
-startHealthCheckCron();
 
 client.login(process.env.token);
