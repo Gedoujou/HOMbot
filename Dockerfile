@@ -1,11 +1,7 @@
-FROM node:20-alpine
-
-WORKDIR /app
-
+FROM node:22
+WORKDIR ./
 COPY package*.json ./
-RUN npm ci --omit=dev
-RUN chmod -R 755 /bot
-
-COPY . .
-
-CMD ["node", "index.js"]
+RUN npm install
+COPY .
+EXPOSE 3000
+CMD ["npm", "start"]
