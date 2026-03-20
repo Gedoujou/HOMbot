@@ -49,3 +49,15 @@ client.on('interactionCreate', async interaction => {
 });
 
 client.login(process.env.token);
+
+client.on("clientReady", () => {
+  console.log(`サーバーが起動しました!!`);
+});
+var app = express();
+app.get("/", (req, res) => {
+  res.send(`ok`);
+});
+var port = 3000;
+app.listen(port, () => {
+  console.log(`Good morning!!`);
+});
