@@ -2,7 +2,8 @@ const { Client, Collection, GatewayIntentBits } = require('discord.js');
 require('dotenv').config();
 const path = require('node:path');
 const fs = require("fs")
-const teamrole = new Set(["The Anchors", "Solid", "TEAM RODEN", "NEXUS ZERO", "Polaris", "Mistral-Guerrero", "冷勝サクラルークズ", "零芯ヴォルテックス"])
+const { serve } = require("@hono/node-server");
+const healthCheckServer = require("./server");
 
 const client = new Client({
 intents: [
@@ -49,5 +50,9 @@ client.on('interactionCreate', async interaction => {
 	}
 });
 
+serve({
+  fetch: healthCheckServer.fetch,
+  port: 8000,
+});
 
 client.login(process.env.token);
