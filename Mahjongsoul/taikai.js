@@ -27,7 +27,7 @@ async function main() {
 }
 
 function point(){
-    const record = JSON.parse(fs.readFileSync("records.json"));
+    const record = JSON.parse(fs.readFileSync("contest_records.json"));
     const HOM = JSON.parse(fs.readFileSync("HOMdata_temp.json"));
 
 
