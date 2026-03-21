@@ -53,5 +53,7 @@ function point(){
     fs.writeFileSync("HOMdata.json", JSON.stringify(HOM, null, 2))
 }
 
-main().catch(console.error);
-point().catch(console.error);
+function taikai(){
+    main().catch(console.error);
+    point().catch(console.error);
+}

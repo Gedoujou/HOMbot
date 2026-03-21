@@ -3,6 +3,7 @@ require('dotenv').config();
 const path = require('node:path');
 const fs = require("fs");
 const express = require('express');
+const { taikai } = require('./Mahjongsoul/taikai.js')
 
 const client = new Client({
   intents: [
@@ -61,4 +62,8 @@ app.listen(3000, () => {
 
 Deno.cron("Continuous Request", "*/2 * * * *", () => {
     console.log("running...");
+});
+
+Deno.cron("Taikai", "*/1 * * * *", async () => {
+  await taikai();
 });
