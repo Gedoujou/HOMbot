@@ -48,9 +48,10 @@ client.once('ready', () => {
   console.log(`ログイン完了: ${client.user.tag}`);
 });
 
-console.log("TOKEN:", process.env.TOKEN ? "取得OK" : "undefined");
+client.login(process.env.TOKEN).catch(err => {
+  console.error("ログインエラー:", err);
+});
 
-client.login(process.env.TOKEN);
 
 const app = express();
 app.get("/", (req, res) => {
