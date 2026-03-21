@@ -49,10 +49,9 @@ function point(){
         HOM["team-point"][i] = teamp
     }
 
-    fs.writeFileSync(p.join(__dirname, "HOMdata.json"), JSON.stringify(HOM, null, 2));  // ← 修正
-    const HOMd = JSON.parse(fs.readFileSync(p.join(__dirname, "HOMdata.json")));        // ← 修正
+    fs.writeFileSync(p.join(__dirname, "HOMdata.json"), JSON.stringify(HOM, null, 2));
+    const HOMd = JSON.parse(fs.readFileSync(p.join(__dirname, "HOMdata.json")));
     console.log("data更新成功！")
-    console.log(HOMd)
 }
 
 async function taikai(){
