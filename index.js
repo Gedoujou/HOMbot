@@ -48,14 +48,7 @@ client.once('ready', () => {
   console.log(`ログイン完了: ${client.user.tag}`);
 });
 
-console.log("login()前");
-client.login(process.env.TOKEN).then(() => {
-  console.log("login()成功");
-}).catch(err => {
-  console.error("login()失敗:", err);
-});
-console.log("login()呼び出し完了");
-
+client.login(process.env.TOKEN);
 
 const app = express();
 app.get("/", (req, res) => {
