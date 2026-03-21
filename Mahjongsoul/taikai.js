@@ -1,5 +1,6 @@
 const { createMajsoulConnection } = require("./login");
 const fs = require("fs");
+const p = require("path");
 
 async function main() {
   const conn = await createMajsoulConnection();
@@ -16,10 +17,10 @@ async function main() {
   }
 
   const records = await conn.rpcCall(".lq.Lobby.fetchCustomizedContestGameRecords", {
-  unique_id: uniqueId
+    unique_id: uniqueId
   });
 
-  fs.writeFileSync("contest_records.json", JSON.stringify(records, null, 2), "utf8");
+  fs.writeFileSync(p.join(__dirname, "contest_records.json"), JSON.stringify(records, null, 2), "utf8");  // ← 修正
   console.log("保存しました: contest_records.json");
   console.log("取得件数:", records.record_list?.length || 0);
 
@@ -27,9 +28,8 @@ async function main() {
 }
 
 function point(){
-    const record = JSON.parse(fs.readFileSync("contest_records.json"));
-    const HOM = JSON.parse(fs.readFileSync("HOMdata_temp.json"));
-
+    const record = JSON.parse(fs.readFileSync(p.join(__dirname, "contest_records.json")));  // ← 修正
+    const HOM = JSON.parse(fs.readFileSync(p.join(__dirname, "HOMdata_temp.json")));        // ← 修正
 
     for(let i of record.record_list){
         const seat = [];
@@ -49,8 +49,8 @@ function point(){
         HOM["team-point"][i] = teamp
     }
 
-    fs.writeFileSync("HOMdata.json", JSON.stringify(HOM, null, 2))
-    const HOMd = JSON.parse(fs.readFileSync("HOMdata.json"));
+    fs.writeFileSync(p.join(__dirname, "HOMdata.json"), JSON.stringify(HOM, null, 2));  // ← 修正
+    const HOMd = JSON.parse(fs.readFileSync(p.join(__dirname, "HOMdata.json")));        // ← 修正
     console.log("data更新成功！")
     console.log(HOMd)
 }
