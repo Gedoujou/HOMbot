@@ -8,14 +8,12 @@ const fs = require("fs");
 const p = require("path");
 const crypto = require("crypto");
 
-const { URL_BASE, ACCESS_TOKEN, PREFERRED_SERVER, OAUTH_TYPE } = require("./env");
-
 const USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.88 Safari/537.36";
 const HEADERS = {
   "User-Agent": USER_AGENT,
   "If-Modified-Since": "0",
-  Referer: URL_BASE,
+  Referer: process.env.URL_BASE,
   "sec-ch-ua": '"Chromium";v="100", "Google Chrome";v="100"',
   "sec-ch-ua-platform": "Windows",
 };
@@ -267,13 +265,13 @@ const cookieStore = new CookieFileStore(
     ".cache",
     crypto
       .createHash("sha256")
-      .update(ACCESS_TOKEN || URL_BASE)
+      .update(process.env.ACCESS_TOKEN || process.env.URL_BASE)
       .digest("hex")
   )
 );
 const cookiejar = rp.jar(cookieStore);
 async function getRes(path, bustCache) {
-  let url = /^https?:/i.test(path) ? path : `${URL_BASE}${path}`;
+  let url = /^https?:/i.test(path) ? path : `${process.env.URL_BASE}${path}`;
   const cacheHash = crypto.createHash("sha256").update(url).digest("hex");
   if (bustCache) {
     url += (url.includes("?") ? "&" : "?") + "randv=" + Math.random().toString().slice(2);
@@ -326,7 +324,7 @@ async function fetchLatestDataDefinition() {
   };
 }
 
-async function createMajsoulConnection(accessToken = ACCESS_TOKEN, preferredServer = PREFERRED_SERVER) {
+async function createMajsoulConnection(accessToken = process.env.ACCESS_TOKEN, preferredServer = PREFERRED_SERVER) {
   let serverListUrl = process.env.SERVER_LIST_URL;
   const wsScheme = process.env.WS_SCHEME || "wss";
   const versionInfo = await getRes("version.json", true);
@@ -403,7 +401,7 @@ async function createMajsoulConnection(accessToken = ACCESS_TOKEN, preferredServ
   }
   const proto = new MajsoulProtoCodec(pbDef, pbVersion);
   const serverIndex = Math.floor(Math.random() * serverList.servers.length);
-  const type = parseInt(OAUTH_TYPE) || 0;
+  const type = parseInt(process.env.OAUTH_TYPE) || 0;
   let server = serverList.servers[serverIndex];
   const routeInfo = await getRes(
     `https://${server}/api/clientgate/routes?platform=Web&version=${versionInfo.version}`,

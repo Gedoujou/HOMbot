@@ -1,12 +1,11 @@
 const { createMajsoulConnection } = require("./login");
 const fs = require("fs");
-const { contest } = require("./env")
 
 async function main() {
   const conn = await createMajsoulConnection();
 
   const contestInfo = await conn.rpcCall(".lq.Lobby.fetchCustomizedContestByContestId", {
-    contest_id: contest,
+    contest_id: process.env.contest,
   });
 
   const uniqueId = contestInfo.contest_info?.unique_id;
