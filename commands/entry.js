@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, MessageFlags } = require('discord.js');
 const fs = require('fs');
+const path = require('path');
 const teamrole = new Set(["The Anchors", "Solid", "TEAM RODEN", "NEXUS ZERO", "Polaris", "Mistral-Guerrero", "冷勝サクラルークズ", "零芯ヴォルテックス"]);
 
 module.exports = {
@@ -43,7 +44,7 @@ module.exports = {
       return;
     }
 
-    const entries = JSON.parse(fs.readFileSync('entries.json'));
+    const entries = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'entries.json')));
 
     entries[round] ??= {};
     entries[round][table] ??= {};
@@ -57,11 +58,10 @@ module.exports = {
       entryp.push({ team, name });
     }
 
-    fs.writeFileSync('entries.json', JSON.stringify(entries, null, 2));
-    await interaction.channel.send(`${team} 第${round}卓 ${table}卓 第${match}試合 エントリー完了！(${entryp.length}/4人)`)
+    fs.writeFileSync(path.join(__dirname, '..', 'entries.json'), JSON.stringify(entries, null, 2));
 
     if (entryp.length === 4) {
-      const HOM = JSON.parse(fs.readFileSync('Mahjongsoul/HOMdata.json'));
+      const HOM = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'Mahjongsoul', 'HOMdata.json')));
 
       const now = new Date();
       const options = { timeZone: 'Asia/Tokyo', month: 'numeric', day: 'numeric', weekday: 'short' };
@@ -77,7 +77,7 @@ module.exports = {
         const entryid = i.name;
         const entryn  = HOM['Id'][entryid];
         const rpoint = HOM['point'][entryn];
-        const point = rpoint >= 0 ? `+${rpoint.toFixed(1)}` : rpoint.toFixed(1).replace('-', '▲');
+        const point = rpoint >= 0 ? `+${rpoint.toFixed(1)}` : `▲${Math.abs(rpoint).toFixed(1)}`;
         const ranking = (Object.entries(HOM['point']).sort(([, a], [, b]) => b - a).findIndex(([, p]) => p == HOM["point"][entryn]) + 1) || null;
         
         infos.push([entryt, entryid, ranking, point]);
@@ -90,12 +90,11 @@ module.exports = {
         `${infos[2][0]}\n<@${infos[2][1]}>  個人${infos[2][2]}位 ${infos[2][3]}pt\n\n` +
         `${infos[3][0]}\n<@${infos[3][1]}>  個人${infos[3][2]}位 ${infos[3][3]}pt`
       );
-    }else{
-      await interaction.reply({ content: `HOM.LEAGUE\n`+
-        `第${round}節 ${table}卓 第${match}試合\n`+
-        `${team} | <@${name}>\n`+
-        `(${entryp.length}/4人)`,
-        flags: MessageFlags.Ephemeral });
+    } else {
+      await interaction.reply({
+        content: `HOM.LEAGUE\n第${round}節 ${table}卓 第${match}試合\n${team} | <@${name}>\n(${entryp.length}/4人)`,
+        flags: MessageFlags.Ephemeral
+      });
     }
   },
 };

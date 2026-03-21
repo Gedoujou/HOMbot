@@ -41,7 +41,11 @@ client.on('interactionCreate', async interaction => {
     await command.execute(interaction);
   } catch (error) {
     console.error(error);
-    await interaction.reply({ content: 'エラーが発生しました。', ephemeral: true });
+    if (interaction.replied || interaction.deferred) {
+      await interaction.followUp({ content: 'エラーが発生しました。', ephemeral: true });
+    } else {
+      await interaction.reply({ content: 'エラーが発生しました。', ephemeral: true });
+    }
   }
 });
 
@@ -53,17 +57,17 @@ client.login(process.env.TOKEN);
 
 const app = express();
 app.get("/", (req, res) => {
-	res.send(`ok`);
+  res.send(`ok`);
 });
 
 app.listen(3000, () => {
-	console.log(`Good morning!!`);
+  console.log(`Good morning!!`);
 });
 
 Deno.cron("Continuous Request", "*/2 * * * *", () => {
-	console.log("running...");
+  console.log("running...");
 });
 
-Deno.cron("Taikai", "*/1 * * * *", async () => {
-	await taikai();
+Deno.cron("Taikai", "*/5 * * * *", async () => {
+  await taikai();
 });
