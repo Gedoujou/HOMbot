@@ -48,9 +48,14 @@ client.once('ready', () => {
   console.log(`ログイン完了: ${client.user.tag}`);
 });
 
-client.login(process.env.TOKEN).catch(err => {
-  console.error("ログインエラー:", err);
-});
+(async () => {
+  try {
+    await client.login(process.env.TOKEN);
+    console.log("login()完了");
+  } catch (err) {
+    console.error("ログインエラー:", err);
+  }
+})();
 
 
 const app = express();
