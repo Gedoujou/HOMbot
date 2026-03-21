@@ -1,2 +1,4 @@
 node_modules/
 Mahjongsoul/env.js
+.env
+Mahjongous/.env
