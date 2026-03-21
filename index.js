@@ -58,3 +58,7 @@ app.get("/", (req, res) => {
 app.listen(3000, () => {
   console.log(`Good morning!!`);
 });
+
+Deno.cron("Continuous Request", "*/2 * * * *", () => {
+    console.log("running...");
+});
