@@ -50,6 +50,7 @@ function point(){
     }
 
     fs.writeFileSync("HOMdata.json", JSON.stringify(HOM, null, 2))
+    console.log("data更新成功！")
 }
 
 async function taikai(){
