@@ -15,7 +15,9 @@ const client = new Client({
 client.commands = new Collection();
 
 const commandsPath = path.join(__dirname, 'commands');
+console.log("commandsフォルダ読み込み開始");
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+console.log("コマンドファイル:", commandFiles);
 
 for (const file of commandFiles) {
   const filePath = path.join(commandsPath, file);
