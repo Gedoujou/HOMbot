@@ -1,8 +1,2 @@
 node_modules/
 .cache/
-.env
-Mahjongsoul/env.js
-entries.json
-Mahjongsoul/records.json
-Mahjongsoul/HOMdata_temp.json
-Mahjongsoul/HOMdata.json

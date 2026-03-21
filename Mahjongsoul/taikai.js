@@ -52,7 +52,9 @@ function point(){
     fs.writeFileSync("HOMdata.json", JSON.stringify(HOM, null, 2))
 }
 
-function taikai(){
-    main().catch(console.error);
-    point().catch(console.error);
+async function taikai(){
+    await main();
+    point();
 }
+
+module.exports = { taikai };

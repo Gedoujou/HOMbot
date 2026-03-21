@@ -53,17 +53,17 @@ client.login(process.env.TOKEN);
 
 const app = express();
 app.get("/", (req, res) => {
-  res.send(`ok`);
+	res.send(`ok`);
 });
 
 app.listen(3000, () => {
-  console.log(`Good morning!!`);
+	console.log(`Good morning!!`);
 });
 
 Deno.cron("Continuous Request", "*/2 * * * *", () => {
-    console.log("running...");
+	console.log("running...");
 });
 
 Deno.cron("Taikai", "*/1 * * * *", async () => {
-  await taikai();
+	await taikai();
 });
