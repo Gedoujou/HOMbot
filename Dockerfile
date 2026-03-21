@@ -1,10 +1,7 @@
-FROM node:20-alpine
-
-WORKDIR /app
-
+FROM node:22
+WORKDIR ./
 COPY package*.json ./
-RUN npm ci --omit=dev
-
-COPY . .
-
-CMD ["node", "index.js"]
+RUN npm install express
+COPY .
+EXPOSE 3000
+CMD ["npm", "start"]
