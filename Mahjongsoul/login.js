@@ -324,7 +324,7 @@ async function fetchLatestDataDefinition() {
   };
 }
 
-async function createMajsoulConnection(accessToken = process.env.ACCESS_TOKEN, preferredServer = PREFERRED_SERVER) {
+async function createMajsoulConnection(accessToken = process.env.ACCESS_TOKEN, preferredServer = process.env.PREFERRED_SERVER) {
   let serverListUrl = process.env.SERVER_LIST_URL;
   const wsScheme = process.env.WS_SCHEME || "wss";
   const versionInfo = await getRes("version.json", true);
