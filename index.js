@@ -15,9 +15,7 @@ const client = new Client({
 client.commands = new Collection();
 
 const commandsPath = path.join(__dirname, 'commands');
-console.log("commandsフォルダ読み込み開始");
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
-console.log("コマンドファイル:", commandFiles);
 
 for (const file of commandFiles) {
   const filePath = path.join(commandsPath, file);
@@ -50,14 +48,13 @@ client.once('ready', () => {
   console.log(`ログイン完了: ${client.user.tag}`);
 });
 
-(async () => {
-  try {
-    await client.login(process.env.TOKEN);
-    console.log("login()完了");
-  } catch (err) {
-    console.error("ログインエラー:", err);
-  }
-})();
+console.log("login()前");
+client.login(process.env.TOKEN).then(() => {
+  console.log("login()成功");
+}).catch(err => {
+  console.error("login()失敗:", err);
+});
+console.log("login()呼び出し完了");
 
 
 const app = express();
